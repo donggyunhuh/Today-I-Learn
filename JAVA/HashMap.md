@@ -70,6 +70,97 @@ A, B, C, D애 대한 index 값이 차례로 0,1, 2M+1, M+1이라고 할 때,
 
 <img src="https://ibb.co/TWSf9pn">
 
+Open Addressing은 데이터를 삽입하려는 해시 버킷이 이미 사용중인 경우 다른 해시 버킷에 해당 데이터를
+삽입하는 방식이며, 데이터를 저장하고 조회할 해시 버킷을 찾을 때에는 Linear Probing, Quadratic Probing등의 
+방법을 사용한다.
+
+Separate Chaining에서 각 배열의 인자는 인덱스가 같은 해시 버킷을 연결한 링크드 리스트의 첫부분(head) 이다.
+
+두 방법 모두 워스트 case O(M)이다. 하지만, OpenAddressing은 연속된 공간에 데이터를 저장하기 때문에 Separate Chaining에 비하여
+캐시 효율이 높다. 따라서 데이터 개수가 충분히 적다면 Open Addressing이 Separate Chaining보다 더 성능이 좋다. 하지만 배열의 크기가
+커질수록 (M 값이 커질수록) 캐시 효율이라는 Open Addressing의 장점은 사라진다. 배열의 크기가 커지면, L1, L2캐시 적중률(hit ratio)이 낮아지기 
+때문이다. 
+
+
+Java HashMap에서 사용하는 방식은 Separate Chaining이다. 
+
+Open Addressing은 데이터를 삭제할떼 처리가 효율적이기 어렵고, HashMap에서 remove() 메소드는 매우 빈번하게 호출될 수 있기 때문이다. HashMap에
+저장된 키-값 쌍 개수가 일정 개수이상으로 많아지면, 일반적으로 Open Addressing은 Separate Chaining 보다 느리다. 
+
+Open Addressing의 경우 해시버킷을 채운 밀도가 높아질수록 Worst Case 발생 빈도가 더 높아지기 때문이다. 반번 Separate Chaining 방식의 경우 
+해시 충돌이 잘 발생하지 않도록 조정할 수 있다면 Worst Case 또는 Worst Case에 가까운 일이 발생하는 것을 줄일 수 있다. 
+
+```java
+transient Entry<K,V>[] table = (Entry<K,V>[]) EMPTY_TABLE;
+
+static class Entry<K,V> implements Map.Entry<K,V> {
+    final K key;
+    V value;
+    Entry<K,V> next;
+    int hash;
+    
+    Entry(int h, K k, V v, Entry<K,V> n) {
+        value = v;
+        next = n;
+        key = k;
+        hash = h;
+    }
+    public final getKey(){...}
+    public final V getValue(){...}
+    public final boolean equals(Object o){...}
+    public final int hashCode(){...}
+    public final String toString(){...}
+    
+    void recordAcess(HashMap<K,V> m) {...}
+    
+    void recordRemoval(HashMap<K,V> m) {...}
+    }
+}
+```
+
+Separate Chaining 방식을 사용하기 때문에 put() 메서드 구현은
+
+```java
+public V put(K key, V value) {
+        if (table == EMPTY_TABLE) {
+        inflateTable(threshold); // 테이블 배열 생성
+        }
+
+        // HashMap에서는 null을 키로 사용
+        if (key == null) {
+        return putForNullKey(value);
+        }
+
+        // 해시 값을 계산
+        int hash = hash(key);
+
+        // i 값은 해시 버킷의 인덱스
+        int i = indexFor(hash, table.length);
+
+        // 해시 버킷에 있는 링크드 리스트를 순회
+        // 같은 키가 이미 저장되어 있다면 값을 교체.
+        for (Entry<K, V> e = table[i]; e != null; e = e.next) {
+        Object k;
+        if (e.hash == hash && ((k = e.key) == key || key.equals(k))) {
+        V oldValue = e.value;
+        e.value = value;
+        e.recordAccess(this);
+        return oldValue;
+        }
+        }
+
+        // 해당 키-값 쌍 데이터가 아직 삽입되지 않았다면 새 Entry를 생성
+        addEntry(hash, key, value, i);
+
+        // 수정 횟수(modification)를 추적하기 위한 코드
+        // ConcurrentModificationException을 발생시켜야 하는지 판단할 때 사용
+        modCount++;
+
+        return null;
+        }
+```
+
+
 
 
 
