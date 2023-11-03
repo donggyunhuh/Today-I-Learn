@@ -54,3 +54,6 @@
 - 가장 단순한 격리 수준이지만 가장 엄격
 - 성능 측면에서는 동시 처리성능이 가장 낮음
 - SERIALIZABLE 에서는 PHANTOM READ 가 발생하지 않는다. 그러나 데이터베이스에는 거의 사용되지 않음. 
+
+
+[REFERENCE](https://nesoy.github.io/articles/2019-05/Database-Transaction-isolation)
