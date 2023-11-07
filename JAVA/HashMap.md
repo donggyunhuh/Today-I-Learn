@@ -7,6 +7,12 @@ Amortized Constant Time을 위해 어떻게 해시 충돌 가능성을 줄이고
 
 ## HashMap과 HashTable
 
+* 해시맵 : 해시맵(HashMap)은 키(key)와 값(value)을 쌍으로 저장하는 자료구조
+Java에서는 java.util.HashMap 클래스를 통해 제공
+* 해시맵은 내부적으로 해시 테이블(hash table)을 사용하여 데이터를 관리하며, 이 때문에 키에 대한 빠른 검색 속도를 제공
+  (chat GPT)
+
+
 해시맵과 해시테이블은 Java의 API의 이름이다. 
 
 HashTable 또한 Map 인터페이스를 구현하고 있어 HashMap과 HashTable이 제공하는 기능은 같다고 
