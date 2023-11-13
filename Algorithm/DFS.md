@@ -44,7 +44,6 @@ public class DFS {
 스택을 사용하는 방식은 후입선출(LIFO) 원칙의 스택 자료 구조를 사용합니다.
 
 ```java
-Copy code
 public void dfsStack(String startNode) {
     Stack<String> stack = new Stack<>();
     stack.push(startNode);
