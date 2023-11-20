@@ -17,71 +17,51 @@
 
 ```java
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.*;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.net.Socket;
-import java.util.Random;
 
 public class Main {
-static Socket socket;
-
     public static void main(String[] args) {
-
-        JFrame frame = new JFrame("My Frame");
+        JFrame frame = new JFrame("Transfer Client");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 300);
+        frame.setSize(800, 600);
 
-
-        Container container = frame.getContentPane();
-        container.setLayout(new BorderLayout());
-
-
-        JButton button1 = new JButton("Connect");
-        button1.addActionListener(e -> {
-            try{
-                socket = new Socket("117.16.243.99",5501);
-                System.out.println("연결!");
-            } catch (IOException ex){
-                throw new RuntimeException(ex);
-            }
-        });
-
-
-        JButton button2 = new JButton("Send");
-        button2.addActionListener((e -> {
-            JFileChooser jFileChooser =new JFileChooser();
-            int ret = jFileChooser.showOpenDialog(null);
-            if(ret == JFileChooser.APPROVE_OPTION){
-                try {
-                    DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
-                    String path = jFileChooser.getSelectedFile().getPath();
-                    String name = jFileChooser.getSelectedFile().getName();
-                    //4bytes -> 파일명 크기
-                    dos.writeInt(name.getBytes().length);
-                    dos.write(name.getBytes());
-                    //8 Byte -> 파일 크기
-
-                    File file = new File(path);
-                    long size = file.length();
-                    dos.writeLong(size);
-
-
-                    // 파일전솓
-                    FileInputStream fis = new FileInputStream(path);
-                    int nRead = 0;
-                    byte[] buffer = new byte[1024];
-                    while((nRead = fis.read(buffer,0,buffer.length)) != -1){
-                        dos.write(buffer,0,nRead);
-                    }
-                } catch (IOException ignored){
-
-                }
-            }
-        }));
+        JButton button = new JButton("Connect & Send");
+        button.addActionListener(event -> connectAndSend("117.16.243.99", 5501));
+        frame.getContentPane().add(button);
 
         frame.setVisible(true);
+    }
+
+    private static void connectAndSend(String ip, int port){
+        try (Socket socket = new Socket(ip, port)) {
+            JFileChooser fileChooser = new JFileChooser();
+            int state = fileChooser.showOpenDialog(null);
+            if (state == JFileChooser.APPROVE_OPTION) {
+                String path = fileChooser.getSelectedFile().getPath();
+                String filename = fileChooser.getSelectedFile().getName();
+
+                File file = new File(path);
+                FileInputStream fis = new FileInputStream(file);
+
+                DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
+                dos.writeInt(filename.getBytes().length);
+                dos.write(filename.getBytes());
+                dos.writeLong(file.length());
+                byte[] buffer = new byte[1024];
+                int nRead = 0;
+                while ((nRead = fis.read(buffer, 0, buffer.length)) != -1) {
+                    dos.write(buffer, 0, nRead);
+                }
+                fis.close();
+                dos.close();
+            }
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
 ```
