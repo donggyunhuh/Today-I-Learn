@@ -25,7 +25,7 @@ UserEditInfo updatedUserEditInfo = userEditService.updateUserNickname(userEditIn
     }
 }
 ``` 
-
+ 
 ### 확인버튼 누르면 닉네임 변경하는 js
 
 코드 동작 순서
