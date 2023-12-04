@@ -1,5 +1,7 @@
 # 학번이름 전송 소켓
 
+## 조건
+- String을 이용하고 ObjectOutputStream을 이용해서 객체형태로 전송
 ```java
 import javax.swing.*;
 import java.awt.*;
