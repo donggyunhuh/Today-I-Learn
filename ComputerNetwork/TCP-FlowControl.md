@@ -26,3 +26,13 @@ A(acknowledgement):이 패킷이 acknowledgement을 위한 것인지 데이터�
 P(push data)
 
 R,S,F : 연결에 필요한 필드, 연결을 맺고 끊는 부분 설명할 때 알 수 있을 예정
+
+
+##  TCP에서 시퀀스넘버와 ACKs
+
+시퀀스 넘버를 붙일 때 각 TCP 세그먼트(바이트 넘버)의 1번째 바이트 넘버가 시퀀스 넘버가 됩니다. 1000바이트 단위의 MSS가 있다고 하면 1번째 세그먼트는 0이 시퀀스 넘버이고, 2번째 세그먼트는 1000이 시퀀스 넘버입니다.
+
+<img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FbdOWjD%2FbtrhzRFJFA4%2FVfWPYi9hp1Y1OYTf4NT4D0%2Fimg.png">
+
+- CK넘버는 첫번째 세그먼트를 받았을 때 그 다음의 시퀀스 번호를 ACK (ex 1000, 2000)으로 보
+- TCP는 cummlative ack 방식
