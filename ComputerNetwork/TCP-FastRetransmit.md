@@ -9,7 +9,7 @@
 - 3 duplicate ack이 있다면 ack을 안받은 것 중 가장 작은 시퀀스 넘버 패킷을 재전송
 - 왜? : 중간에 로스가 있어도 뒤의 Ack는 제대로 도착할 가능성이 있음
 
-#  TCP=GO-BACK-N+S
+#  TCP=GO-BACK-N+SR
 
 - TCP는 GBN과 SR방식이 적절히 섞어진 상태
 
