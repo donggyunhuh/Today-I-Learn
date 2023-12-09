@@ -14,7 +14,8 @@
 ### Distance Vector Routing
 
 ## link-state routing algorithm
- - Dijkstra 
+ - Dijkstra 알고리즘 사용
+ - 최소 코스트의 노드를 찾아 업데이트한다. 
 
 ## Distance Vector algorithm
  - Bellman-Ford
