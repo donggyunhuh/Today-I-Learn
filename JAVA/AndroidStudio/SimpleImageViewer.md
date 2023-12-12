@@ -57,7 +57,7 @@ bitma.recycle();
 public class Mainactivity extends Activity{
 Button btn Prev, btnNext;
 myPictureView myPicture;
-int curNum = 0l
+int curNum = 0;
 File[] imageFiles = new File[0];
 String imageFname;
 
