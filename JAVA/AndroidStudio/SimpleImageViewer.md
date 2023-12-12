@@ -28,3 +28,25 @@ bitma.recycle();
 }
 }
 ```
+
+### 커스텀 위젯인 myPictureView 생성, 버튼 추가
+
+```xml
+<LinearLayout>
+ <LinearLayout 
+   android:Orientation=“horizontal”>
+<Button 
+  android:id=“@+id/btnPrev”
+  android:layout_weight=“1”
+  android:text=“ 이전그림”/>
+
+<Button 
+ android:id=“@+id/btnNext”
+ android:layout_weight=“1”
+ android:text=“다음그림” />
+<LinearLayout>
+<com.cookandroid.project8_2.myPictureView
+ android:id=“@+id/myPictureView1”/>
+</LinearLayout>
+
+```
