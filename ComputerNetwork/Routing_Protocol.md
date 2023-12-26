@@ -1,6 +1,6 @@
 ## Echo-request and echo-reply
 
-- ip 프로토콜의 동작을 확인하기 위해서 사용
+- ip 프로토콜의 동작을 확인하기 위해서 사용 
 
 라우팅 프로토콜
 
